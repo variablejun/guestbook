@@ -49,7 +49,7 @@ public class PageResultDTO<DTO, EN>{
         this.size = pageable.getPageSize();
 
         // 한 화면의 임시 마지막 페이지 번호
-        int tempEnd = (int)Math.ceil(page/10.0);
+        int tempEnd = (int)Math.ceil(page/10.0) * 10;
 
         // 한 화면의 시작번호
         start = tempEnd - 9;
@@ -63,8 +63,6 @@ public class PageResultDTO<DTO, EN>{
 
         pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
 
-
     }
-
 
 }
