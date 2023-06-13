@@ -9,6 +9,8 @@
     <h1 class="mt-4">GuestBook Modify Page</h1>
     <form action = "/guestbook/modify" method="post">
       <input type = "hidden" name = "page" th:value="${requestDTO.page}">
+      <input type = "hidden" name = "type" th:value="${requestDTO.type}">
+      <input type = "hidden" name = "keyword" th:value="${requestDTO.keyword}">
     <div class="form-group">
       <label>Gno</label>
       <input type="text" class="form-control" name="gno" th:value="${dto.gno}" readonly>
@@ -29,11 +31,11 @@
     </div>
     <div class="form-group">
       <label>RegDate</label>
-      <input type="text" class="form-control" name="regDate" th:value="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+      <input type="text" class="form-control" name="regDate" th:value="${dto.regDate}" readonly>
     </div>
     <div class="form-group">
       <label>ModDate</label>
-      <input type="text" class="form-control" name="modDate" th:value="${#temporals.format(dto.modDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+      <input type="text" class="form-control" name="modDate" th:value="${dto.modDate}" readonly>
     </div>
     </form>
     <button type = "button" class="btn btn-primary modifyBtn"  >MODIFY</button>
@@ -55,6 +57,19 @@
     }
     actionForm.attr("action", "/guestbook/modify")
             .attr("method", "post")
+            .submit();
+  })
+  $(".listBtn").click(function (){
+    var page = $("input[name='page']");
+    var type = $("input[name='type']");
+    var keyword = $("input[name='keyword']");
+
+    actionForm.empty();
+    actionForm.append(page);
+    actionForm.append(type);
+    actionForm.append(keyword);
+    actionForm.attr("action", "/guestbook/list")
+            .attr("method", "get")
             .submit();
   })
 </script>

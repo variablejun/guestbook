@@ -2191,8 +2191,10 @@ textarea.form-control-lg {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   padding-left: 0.5rem;
+  margin-right: 10px;
   font-size: 0.875rem;
   border-radius: 0.25rem;
+
 }
 
 .form-select-lg {
@@ -2548,7 +2550,9 @@ textarea.form-control-lg {
   font-size: 1.25rem;
   border-radius: 0.5rem;
 }
-
+.input-group-sm{
+  margin-right: 10px;
+}
 .input-group-sm > .form-control,
 .input-group-sm > .form-select,
 .input-group-sm > .input-group-text,

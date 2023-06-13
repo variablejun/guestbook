@@ -5,10 +5,33 @@
   </script>
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
     <th:block th:fragment="content">
-      <h1 class="mt-4">Guest List Page</h1>
+      <h1 class="mt-4">Guest List Page
         <a th:href="@{/guestbook/register}">
           <button type="button" class="btn btn-outline-primary">REGISTER</button>
         </a>
+      </h1>
+      <form action="/guestbook/list" method="get" id = "searchForm">
+        <div class="input-group">
+          <input type="hidden" name = "page" th:value="1">
+          <div class="input-group-sm" >
+            <select class="form-select-sm" name = "type">
+              <option th:selected="${pageRequestDTO.type == null}">----------------</option>
+              <option th:selected="${pageRequestDTO.type == 't'}" value="t">제목</option>
+              <option th:selected="${pageRequestDTO.type == 'c'}" value="c">내용</option>
+              <option th:selected="${pageRequestDTO.type == 'w'}" value="w">작성자</option>
+              <option th:selected="${pageRequestDTO.type == 'tc'}" value="tc">제목 + 내용</option>
+              <option th:selected="${pageRequestDTO.type == 'tcw'}" value="tcw">제목 + 내용 + 작성자</option>
+            </select>
+          </div>
+          <input class="form-control" name = "keyword" th:value="${pageRequestDTO.keyword}">
+
+          <div class="input-group-sm" id = "button-addon4">
+            <button class="btn btn-outline-secondary btn-search">Search</button>
+            <button class="btn btn-outline-secondary btn-clear">Clear</button>
+          </div>
+        </div>
+
+      </form>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -28,7 +51,7 @@
         </thead>
         <tbody>
           <tr th:each="dto : ${result.dtoList}">
-            <th scope="row"><a th:href="@{/guestbook/read(gno=${dto.gno}, page=${result.page})}">
+            <th scope="row"><a th:href="@{/guestbook/read(gno=${dto.gno}, page=${result.page}, type = ${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">
               [[${dto.gno}]]
             </a></th>
 
@@ -41,13 +64,13 @@
 
       <ul class="pagination h-100 justify-content-center align-items-center">
         <li class="page-item" th:if="${result.prev}">
-          <a class="page-link" th:href="@{/guestbook/list(page=${result.start - 1}, size = ${result.size})}" tabindex="-1">Previous</a>
+          <a class="page-link" th:href="@{/guestbook/list(page=${result.start - 1}, size = ${result.size}, type = ${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}" tabindex="-1">Previous</a>
         </li>
         <li th:class="'page-item ' + ${result.page == page?'active':''}" th:each="page: ${result.pageList}">
-          <a class="page-link" th:href="@{/guestbook/list(page=${page}, size = ${result.size})}" >[[${page}]]</a>
+          <a class="page-link" th:href="@{/guestbook/list(page=${page}, size = ${result.size}, type = ${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}" >[[${page}]]</a>
         </li>
         <li class="page-item" th:if="${result.next}">
-          <a class="page-link" th:href="@{/guestbook/list(page=${result.end + 1}, size = ${result.size})}">Next</a>
+          <a class="page-link" th:href="@{/guestbook/list(page=${result.end + 1}, size = ${result.size}, type = ${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">Next</a>
         </li>
 
       </ul>
@@ -77,6 +100,13 @@
         if(msg){
           $(".modal").show();
         }
+        var searchForm = $("#searchForm");
+        $(".btn-search").click(function (){
+          searchForm.submit();
+        });
+        $(".btn-clear").click(function (){
+          searchForm.empty().submit();
+        });
       </script>
     </th:block>
   </th:block>
